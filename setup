@@ -9,13 +9,29 @@ set -euxo pipefail
 
 dnf upgrade -y
 
-dnf remove -y gnome-contacts gnome-weather gnome-maps simple-scan snapshot \
-	gnome-connections baobab gnome-logs gnome-abrt libreoffice-* gnome-tour \
-	yelp firefox gnome-boxes ptyxis
+dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+	https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-dnf install -y stow podman-compose @development-tools golang virt-manager wireshark \
-	kubernetes1.33-client ansible opentofu helm wl-clipboard adw-gtk3-theme \
-	gnome-tweaks SDL2-devel kitty cascadia-code-nf-fonts
+rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+printf "[gitlab.com_paulcarroty_vscodium_repo]\nname=download.vscodium.com\nbaseurl=https://download.vscodium.com/rpms/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg\nmetadata_expire=1h\n" | tee -a /etc/yum.repos.d/vscodium.repo
+
+dnf copr enable sneexy/zen-browser -y
+dnf copr enable brycensranch/gpu-screen-recorder-git  -y
+dnf copr enable g3tchoo/prismlauncher -y
+
+dnf remove -y plasma-welcome setroubleshoot kwrite krfb kfind filelight \
+	kde-partitionmanager kjournald gnome-disk-utility plasma-discover
+
+dnf swap ffmpeg-free ffmpeg --allowerasing
+dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+
+dnf config-manager setopt fedora-cisco-openh264.enabled=1
+
+dnf install -y keepassxc stow podman-compose @development-tools golang \
+	virt-manager wireshark zen-browser gpu-screen-recorder-gtk prismlauncher \
+	cascadia-code-nf-fonts kubernetes1.34-client ansible opentofu helm \
+	wl-clipboard micro 
 
 usermod -aG libvirt melonlorrd
 usermod -aG wireshark melonlorrd
