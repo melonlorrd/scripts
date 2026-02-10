@@ -29,13 +29,10 @@ install_mac_packages() {
     done
 
     MAC_CASK_PACKAGES="
-        ghostty
+        kitty
         keepassxc
         transmission
-        wireshark-app
         iina
-        steam
-        vscodium
     "
 
     for pkg in $MAC_CASK_PACKAGES; do
@@ -47,7 +44,6 @@ install_linux_packages() {
     sudo apt-get update
 
     LINUX_PACKAGES="
-        vscodium
         build-essential
         stow
     "
