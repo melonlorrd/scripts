@@ -19,9 +19,12 @@ install_mac_packages() {
         pinentry-mac
         go
         lima
-        micro
         starship
         stow
+        neovim
+        tmux
+        kubernetes-cli
+        helm
     "
 
     for pkg in $MAC_PACKAGES; do
