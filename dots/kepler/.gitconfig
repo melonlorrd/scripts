@@ -1,10 +1,13 @@
 [user]
         name = melonlorrd
         email = mprasadme@gmail.com
-        signingKey = FBE332C0FAAF243C
+        signingKey = ~/.ssh/melonlorrd_github_sshkey.pub
 
 [commit]
         gpgsign = true
+
+[gpg]
+	format = ssh
 
 [core]
         sshCommand = "ssh -i ~/.ssh/melonlorrd_github_sshkey"
