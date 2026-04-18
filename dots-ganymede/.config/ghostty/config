@@ -1,0 +1,6 @@
+theme = Apple System Colors
+font-family = Monaco
+macos-option-as-alt = left
+font-size = 14
+# background-blur = macos-glass-regular
+# background-opacity = 0

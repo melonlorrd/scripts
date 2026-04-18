@@ -11,3 +11,6 @@
 
 [core]
         sshCommand = "ssh -i ~/.ssh/melonlorrd_github_sshkey"
+
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
