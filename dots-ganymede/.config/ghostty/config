@@ -1,6 +1,6 @@
 shell-integration = zsh
-theme = Ayu
-font-family = Monaco
+theme = Ayu 
+font-family = Menlo Bold  
 macos-option-as-alt = left
-font-size = 13
+font-size = 14
 macos-titlebar-proxy-icon = hidden
