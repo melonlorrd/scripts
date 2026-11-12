@@ -6,7 +6,9 @@
   outputs = { self, nixpkgs }:
     let
       systems = [ "aarch64-darwin" "x86_64-darwin" "x86_64-linux" "aarch64-linux" ];
-      forAll = f: nixpkgs.lib.genAttrs systems (s: f nixpkgs.legacyPackages.${s});
+      # import nixpkgs ourselves so we can allow unfree packages (claude-code)
+      forAll = f: nixpkgs.lib.genAttrs systems (s:
+        f (import nixpkgs { system = s; config.allowUnfree = true; }));
 
       # Shared shell prelude: profile detection + layer resolution
       prelude = ''
@@ -48,8 +50,16 @@
         });
       };
     in {
+      # one bundle of packages per profile: `nix profile install .#ganymede`
+      packages = forAll (pkgs: {
+        ganymede = pkgs.buildEnv {
+          name = "ganymede";
+          paths = with pkgs; [ claude-code glow w3m ];
+        };
+      });
+
       apps = forAll (pkgs: {
-        default = self.apps.${pkgs.system}.link;
+        default = self.apps.${pkgs.stdenv.hostPlatform.system}.link;
 
         link = mkApp pkgs "link-dots" ''
           echo "profile: $profile (layers: $layers)"
